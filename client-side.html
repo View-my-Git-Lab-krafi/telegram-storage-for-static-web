@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>POST Request Example</title>
+  </head>
+  <body>
+    <form id="my-form">
+      <input type="text" name="text" value="howareyoubr1o">
+      <input type="file" name="file">
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      const form = document.querySelector('#my-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const response = await fetch('https://easy-opposite-flute.glitch.me/', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.text();
+        console.log(data);
+      });
+    </script>
+  </body>
+</html>
