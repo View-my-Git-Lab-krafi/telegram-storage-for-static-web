@@ -31,6 +31,3 @@ rollback:
     - git push --force
   when: on_failure
   needs: [pages]
-
-before_script:
-  - cp client-side.html index.html
