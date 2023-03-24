@@ -33,4 +33,4 @@ rollback:
   needs: [pages]
 
 before_script:
-  - cp client.html index.html
+  - cp client-side.html index.html
