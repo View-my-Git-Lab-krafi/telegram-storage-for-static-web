@@ -7,7 +7,7 @@ pages:
   script:
     - echo 'Deploying to GitLab Pages...'
     - mkdir .public
-    - cp -r / .public
+    - cp -r .public
     - mv .public public
   artifacts:
     paths:
