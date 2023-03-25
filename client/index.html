@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>POST Request Example</title>
     <style>
-      body {
+      body { /* with terminal curl -X POST -F "text=howareyoubr1o" -F "file=@chatgpt" https://easy-opposite-flute.glitch.me/ */
         background-color: #eee;
         font-family: Arial, sans-serif;
         color: #222;
@@ -16,14 +17,15 @@
       }
 
       form {
-        display: none;
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
-        margin: 0 auto;
-      }
+  visibility: hidden;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px 40px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 
       label {
         display: block;
@@ -44,17 +46,34 @@
       }
 
       button[type="submit"] {
-        background-color: #4caf50;
-        color: #fff;
-        border: none;
-      }
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+}
 
-      button[type="submit"]:disabled {
-        background-color: #ff0000;
-      }
+button[type="submit"]:disabled {
+  background-color: #ff0000;
+}
+
+button[type="submit"]:active {
+  background-color: #ff0000;
+}
+
 
       button.toggle-form {
         background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+
+
+      button.toggle-form:active {
+        background-color: red;
         color: #fff;
         border: none;
         border-radius: 5px;
@@ -82,38 +101,52 @@
 
     <script>
       const form = document.querySelector('#my-form');
-      const toggleFormButton = document.querySelector('.toggle-form');
+console.log('Form:', form);
+
+const toggleFormButton = document.querySelector('.toggle-form');
+console.log('Toggle button:', toggleFormButton);
+
       const submitButton = document.querySelector('#submit-button');
       let isSubmitting = false;
 
       toggleFormButton.addEventListener('click', () => {
-        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
-      });
+  console.log('Toggle button clicked');
+  form.style.visibility = (form.style.visibility ==! 'hidden') ? 'visible' : 'hidden';
+});
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
 
-        // Only allow one submission at a time
-        if (isSubmitting) {
-          return;
-        }
-        isSubmitting = true;
-        submitButton.disabled = true;
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-        const formData = new FormData(form);
-        const response = await fetch('https://easy-opposite-flute.glitch.me/', {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.text();
-        console.log(data);
+  // Only allow one submission at a time
+  if (isSubmitting) {
+    return;
+  }
+  form.style.visibility = (form.style.visibility ==! 'hidden') ? 'visible' : 'hidden';
+  isSubmitting = true;
+  submitButton.disabled = true;
 
-        // Re-enable the button after 10 seconds
-        setTimeout(() => {
-          isSubmitting = true;
-          submitButton.disabled = true;
-        }, 10000);
-      });
+  const formData = new FormData(form);
+  const response = await fetch('https://easy-opposite-flute.glitch.me/', {
+    method: 'POST',
+    body: formData
+  });
+  const data = await response.text();
+  console.log(data);
+
+  // Display the received data in an alert box
+  alert(data);
+
+  // Re-enable the button after 10 seconds
+  setTimeout(() => {
+    isSubmitting = false;
+    submitButton.disabled = false;
+  }, 10000);
+});
+
+
+
+
     </script>
   </body>
 
