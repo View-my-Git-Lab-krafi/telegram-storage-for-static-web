@@ -8,7 +8,6 @@ const https = require('https');
 const app = express();
 const uploadDir = 'uploads/';
 const cors = require('cors');
-
 const chatId = process.env.CHAT_ID;
 const botToken = process.env.BOT_TOKEN;
 const krafi_subscriber_bot=process.env.krafi_subscriber_bot;
@@ -18,15 +17,28 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 52428800 }
 });
-
-app.use(express.json());
 app.use(cors({
-  origin: ['https://krafi.info', 'https://www.krafi.info', 'https://share.krafi.info']
+  origin: 'https://krafi.info' 
 }));
 
+const ALLOWED_ORIGINS = ['https://krafi.info', 'https://www.krafi.info'];
 
+app.use(express.json());
 
-app.post('/', upload.single('file'), (req, res) => {
+//app.use(cors());
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+});
+
+app.post('/', upload.single('file'), (req, res, next) => {
+
   const form = new FormData();
   if (req.body.name) {
 let name = `${req.body.name}`;
@@ -101,7 +113,8 @@ let message = `${req.body.message}`;
 });
 
 
-app.post('/', upload.none(), (req, res) => {
+app.post('/', upload.none(), (req, res, next) => {
+  
   const form = new FormData();
   
   if (req.body.text) {
