@@ -1,5 +1,4 @@
 
-
 ## Telegram Storage for Static Web
 This package allows users to send files and text messages to a Telegram bot via a static website. The simplicity, speediness, and security of this software are its main features.
 
@@ -20,9 +19,11 @@ git clone https://gitlab.com/krafiinfo/telegram-storage-for-static-web.git
 
 Install dependencies using npm install
 
+
 `
-npm install express multer form-data dotenv path
+npm install express multer form-data dotenv path cors
 `
+
 Dont forget to check the Logs if there is any error and create a bug report 
 
 Create a .env file with your Telegram bot's BOT_TOKEN and CHAT_ID values
