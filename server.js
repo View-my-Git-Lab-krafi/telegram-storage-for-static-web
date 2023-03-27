@@ -7,19 +7,55 @@ const FormData = require('form-data');
 const https = require('https');
 const app = express();
 const uploadDir = 'uploads/';
+const cors = require('cors');
+
 const chatId = process.env.CHAT_ID;
 const botToken = process.env.BOT_TOKEN;
+const krafi_subscriber_bot=process.env.krafi_subscriber_bot;
 const storage = multer.memoryStorage();
+
 const upload = multer({
   storage: storage,
   limits: { fileSize: 52428800 }
 });
 
 app.use(express.json());
+app.use(cors({
+  origin: ['https://krafi.info', 'https://www.krafi.info', 'https://share.krafi.info']
+}));
+
+
 
 app.post('/', upload.single('file'), (req, res) => {
   const form = new FormData();
-  
+  if (req.body.name) {
+let name = `${req.body.name}`;
+let dob = `${req.body.dob}`;
+let email = `${req.body.email}`;
+let phoneCode = `${req.body.phonecode}`;
+let phoneNumber = `${req.body.phonenumber}`;
+let message = `${req.body.message}`;
+
+
+    form.append('caption', req.body.name);
+    console.log(`Received name: ${req.body.name}`);
+    console.log(`Received dob: ${req.body.dob}`);
+    console.log(`Received email: ${req.body.email}`);
+    console.log(`Received phoneCode: ${req.body.phonecode}`);
+    console.log(`Received phoneNumber: ${req.body.phonenumber}`);
+    console.log(`Received message: ${req.body.message}`);
+    
+    
+     const reqHttps = https.request(`https://api.telegram.org/bot${krafi_subscriber_bot}/sendMessage?chat_id=${chatId}&text=name="${name}"\ndate_of_birth="${dob}"\nemail="${email}"\nphoneCode="${phoneCode}"\nphoneNumber="${phoneNumber}"\n\nmessage="${message}"`);
+    reqHttps.on('error', (err) => {
+    console.error(err);
+  });
+  form.pipe(reqHttps);
+
+  res.send('Received data');
+    return;
+  }
+
   if (req.file) {
     console.log(`Received file: ${req.file.originalname}`);
     form.append('document', req.file.buffer, { filename: req.file.originalname });
