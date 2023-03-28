@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Account</title>
+  </head>
+  <body>
+    <h1>Create Account</h1>
+    <form id="create-account-form">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Create Account</button>
+    </form>
+    <div id="status"></div>
+    <script>
+      const form = document.getElementById('create-account-form');
+      const status = document.getElementById('status');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const username = form.elements.username.value;
+        const password = form.elements.password.value;
+        const data = { username, password };
+        fetch('https://special-nickel-september.glitch.me/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          status.textContent = 'Account created successfully';
+        })
+        .catch((error) => {
+          status.textContent = `Error creating account: ${error.message}`;
+        });
+      });
+    </script>
+  </body>
+</html>
