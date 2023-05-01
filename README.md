@@ -1,3 +1,4 @@
+Please note that this project is maintained on GitLab, and you can find the latest version of the code, as well as updates and bug fixes, at https://gitlab.com/krafiinfo/telegram-storage-for-static-web.git If you encounter any issues while using the application, we encourage you to report them on the GitLab repository so that we can address them as soon as possible.
 
 ## Telegram Storage for Static Web
 This package allows users to send files and text messages to a Telegram bot via a static website. The simplicity, speediness, and security of this software are its main features.
